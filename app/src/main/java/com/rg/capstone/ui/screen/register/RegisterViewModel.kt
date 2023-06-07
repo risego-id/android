@@ -1,4 +1,4 @@
-package com.rg.capstone.ui.screen.login
+package com.rg.capstone.ui.screen.register
 
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
@@ -8,9 +8,12 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
 @HiltViewModel
-class LoginViewModel @Inject constructor(
+class RegisterViewModel @Inject constructor(
     private val repository: RGRepository
 ): ViewModel() {
+    private val _usernameText = mutableStateOf("")
+    val usernameText: State<String> = _usernameText
+
     private val _emailText = mutableStateOf("")
     val emailText: State<String> = _emailText
 
@@ -23,8 +26,15 @@ class LoginViewModel @Inject constructor(
     private val _emailError = mutableStateOf("")
     val emailError: State<String> = _emailError
 
+    private val _usernameError = mutableStateOf("")
+    val usernameError: State<String> = _usernameError
+
     private val _passwordError = mutableStateOf("")
     val passwordError: State<String> = _passwordError
+
+    fun setUsernameText(username: String) {
+        _usernameText.value = username
+    }
 
     fun setEmailText(email: String) {
         _emailText.value = email

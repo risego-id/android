@@ -13,6 +13,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.rg.capstone.ui.screen.login.LoginScreen
 import com.rg.capstone.ui.screen.login.LoginViewModel
+import com.rg.capstone.ui.screen.register.RegisterScreen
 import com.rg.capstone.ui.theme.CapstoneTheme
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -27,7 +28,7 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    Greeting(name = "Rise Go")
+                    RegisterScreen(modifier = Modifier)
                 }
             }
         }
