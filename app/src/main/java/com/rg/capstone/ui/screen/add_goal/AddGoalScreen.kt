@@ -1,4 +1,8 @@
 package com.rg.capstone.ui.screen.add_goal
 
-class AddGoalScreen {
+import androidx.compose.runtime.Composable
+
+@Composable
+fun AddGoalScreen() {
+
 }

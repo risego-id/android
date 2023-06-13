@@ -17,67 +17,67 @@ import com.rg.capstone.ui.theme.CapstoneTheme
 fun TextGuide(modifier: Modifier = Modifier) {
     Column(modifier = modifier.fillMaxSize()){
         Text(
-            text = "Health",
+            text = "Health-DL",
             style = MaterialTheme.typography.displayLarge
         )
         Text(
-            text = "Health",
+            text = "Health-DM",
             style = MaterialTheme.typography.displayMedium
         )
         Text(
-            text = "Health",
+            text = "Health-DS",
             style = MaterialTheme.typography.displaySmall
         )
         Divider(modifier = modifier.height(10.dp))
         Text(
-            text = "Health",
+            text = "Health-TL",
             style = MaterialTheme.typography.titleLarge
         )
         Text(
-            text = "Health",
+            text = "Health-TM",
             style = MaterialTheme.typography.titleMedium
         )
         Text(
-            text = "Health",
+            text = "Health-TS",
             style = MaterialTheme.typography.titleSmall
         )
         Divider(modifier = modifier.height(10.dp))
         Text(
-            text = "Health",
+            text = "Health-HL",
             style = MaterialTheme.typography.headlineLarge
         )
         Text(
-            text = "Health",
+            text = "Health-HM",
             style = MaterialTheme.typography.headlineMedium
         )
         Text(
-            text = "Health",
+            text = "Health-HS",
             style = MaterialTheme.typography.headlineSmall
         )
         Divider(modifier = modifier.height(10.dp))
         Text(
-            text = "Health",
+            text = "Health-BL",
             style = MaterialTheme.typography.bodyLarge
         )
         Text(
-            text = "Health",
+            text = "Health-BM",
             style = MaterialTheme.typography.bodyMedium
         )
         Text(
-            text = "Health",
+            text = "Health-BS",
             style = MaterialTheme.typography.bodySmall
         )
         Divider(modifier = modifier.height(10.dp))
         Text(
-            text = "Health",
+            text = "Health-LL",
             style = MaterialTheme.typography.labelLarge
         )
         Text(
-            text = "Health",
+            text = "Health-LM",
             style = MaterialTheme.typography.labelMedium
         )
         Text(
-            text = "Health",
+            text = "Health-LS",
             style = MaterialTheme.typography.labelSmall
         )
     }

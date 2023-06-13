@@ -17,6 +17,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
@@ -70,7 +71,7 @@ fun TextFieldItem(
                 fontSize = 14.sp
             )
         )
-        TextField(
+        OutlinedTextField(
             value = value,
             onValueChange = onValueChanged,
             textStyle = textStyle,
@@ -120,8 +121,8 @@ fun TextFieldItem(
             },
             modifier = modifier
                 .clip(RoundedCornerShape(10.dp))
-                .border(width = 3.dp, color = colorResource(id = boxColor))
                 .fillMaxWidth()
+                .border(width = 3.dp, color = colorResource(id = boxColor))
                 .height(50.dp)
         )
         if (error.isNotEmpty()){

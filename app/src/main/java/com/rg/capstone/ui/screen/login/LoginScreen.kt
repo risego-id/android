@@ -1,6 +1,7 @@
 package com.rg.capstone.ui.screen.login
 
-import android.widget.Space
+import android.content.ContentValues.TAG
+import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
@@ -10,13 +11,18 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
@@ -30,11 +36,14 @@ import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavController
 import com.rg.capstone.R
+import com.rg.capstone.network.Resource
 import com.rg.capstone.ui.component.ButtonItem
 import com.rg.capstone.ui.component.TextFieldItem
+import com.rg.capstone.ui.navigation.Screen
 import com.rg.capstone.ui.theme.CapstoneTheme
-import com.rg.capstone.ui.theme.SpaceLarge
+import com.rg.capstone.ui.theme.SpaceExtraLarge
 import com.rg.capstone.ui.theme.SpaceMedium
 import com.rg.capstone.ui.theme.SpaceSmall
 
@@ -42,11 +51,15 @@ import com.rg.capstone.ui.theme.SpaceSmall
 fun LoginScreen(
     modifier: Modifier,
     viewModel: LoginViewModel = hiltViewModel(),
-) {
+    navController: NavController,
+    ) {
+    val loginState by viewModel.loginState.collectAsState()
+
     Column(
         modifier = modifier
             .fillMaxSize()
-            .padding(SpaceLarge),
+            .padding(SpaceExtraLarge)
+            .verticalScroll(rememberScrollState()),
     ) {
         Image(
             painter = painterResource(id = R.drawable.login),
@@ -84,9 +97,16 @@ fun LoginScreen(
         Spacer(modifier = modifier.height(SpaceMedium))
         ButtonItem(
             text = stringResource(id = R.string.login),
-            onClick = { /*TODO*/ }
+            onClick = {
+                    viewModel.userLogin(
+                        email = viewModel.emailText.value,
+                        viewModel.passwordText.value,
+                    )
+
+                },
+            enabled = loginState !is Resource.Loading
         )
-        Spacer(modifier = modifier.height(SpaceLarge))
+        Spacer(modifier = modifier.height(SpaceExtraLarge))
         Text(
             text = buildAnnotatedString {
                 append(stringResource(id = R.string.dont_have_account_yet))
@@ -106,10 +126,63 @@ fun LoginScreen(
             modifier = modifier
                 .fillMaxWidth()
                 .padding(top = 14.dp)
-                .clickable { }
+                .clickable {
+                    navController.navigate(
+                        Screen.Register.route
+                    )
+                }
         )
+        when (val resource = loginState) {
+            is Resource.Loading -> {
+                CircularProgressIndicator(modifier = modifier.align(Alignment.CenterHorizontally))
+                Log.e(TAG, "loading, $resource")
+            }
+            is Resource.Success -> {
+                Log.e(TAG, "Success $resource")
+                LaunchedEffect(Unit) {
+                    navController.navigate(
+                        Screen.Home.route
+                    )
+                }
+            }
+            is Resource.Error -> {
+                Log.e(TAG, "Error $resource")
+                Text(
+                    text = "Login Failed: ${resource.message}",
+                    color = Color.Red,
+                    modifier = Modifier.align(Alignment.CenterHorizontally)
+                )
+            } else -> {}
+        }
     }
 }
+
+//@Composable
+//fun LoginScreen(
+//    modifier: Modifier,
+//    viewModel: LoginViewModel = hiltViewModel(),
+//    navController: NavController,
+//    onLoginSuccess: () -> Unit
+//) {
+//    LoginContent(
+//        email = viewModel.emailText.value,
+//        emailError = viewModel.emailError.value,
+//        password = viewModel.emailText.value,
+//        passwordError = viewModel.emailError.value,
+//        isPasswordVisible = viewModel.showPassword.value,
+//        onValueChangeEmail = { viewModel.setEmailText(it) },
+//        onValueChangePassword = { /*TODO*/ },
+//        setShowPassword = { /*TODO*/ },
+//        onClick = {
+//                viewModel.userLogin(
+//                    email = viewModel.emailText.value,
+//                    password = viewModel.passwordText.value
+//                )
+//        }
+//    ) {
+//
+//    }
+//}
 
 @Composable
 fun LoginContent(
@@ -122,12 +195,13 @@ fun LoginContent(
     onValueChangePassword: () -> Unit,
     setShowPassword: () -> Unit,
     modifier: Modifier = Modifier,
+    onClick: () -> Unit
 ) {
 
     Column(
         modifier = modifier
             .fillMaxSize()
-            .padding(SpaceLarge),
+            .padding(SpaceExtraLarge),
     ) {
         Image(
             painter = painterResource(id = R.drawable.login),
@@ -165,9 +239,9 @@ fun LoginContent(
         Spacer(modifier = modifier.height(SpaceMedium))
         ButtonItem(
             text = stringResource(id = R.string.login),
-            onClick = { /*TODO*/ }
+            onClick = onClick
         )
-        Spacer(modifier = modifier.height(SpaceLarge))
+        Spacer(modifier = modifier.height(SpaceExtraLarge))
         Text(
             text = buildAnnotatedString {
                 append(stringResource(id = R.string.dont_have_account_yet))
@@ -189,6 +263,7 @@ fun LoginContent(
                 .padding(top = 14.dp)
                 .clickable { }
         )
+//        when (val resource = login)
     }
 
 }
@@ -205,7 +280,8 @@ fun LoginContentPreview() {
             onValueChangePassword = {},
             password = "",
             passwordError = "",
-            setShowPassword = {}
+            setShowPassword = {},
+            onClick = {}
         )
     }
 }

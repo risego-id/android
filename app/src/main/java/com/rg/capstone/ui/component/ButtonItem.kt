@@ -27,19 +27,22 @@ import com.rg.capstone.ui.theme.CapstoneTheme
 fun ButtonItem(
     text: String,
     onClick: () -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    enabled: Boolean = true,
+    color: Int = R.color.dark_blue
 ) {
     Button(
         onClick = onClick,
         colors = ButtonDefaults.buttonColors(
             // Set the background color to dark blue
-            containerColor = colorResource(id = R.color.dark_blue),
+            containerColor = colorResource(id = color),
             contentColor = Color.White
         ),
+        enabled = enabled,
         modifier = modifier
             .fillMaxWidth()
             .clip(RoundedCornerShape(15.dp))
-            .background(colorResource(id = R.color.dark_blue)),
+            .background(colorResource(id = color)),
     ) {
         Text(
             text = text,
@@ -59,7 +62,8 @@ fun ButtonItemPreview() {
     CapstoneTheme {
         ButtonItem(
             text = "Log In",
-            onClick = {}
+            onClick = {},
+            enabled = false
         )
     }
 }

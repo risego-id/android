@@ -1,12 +1,15 @@
 package com.rg.capstone.di
 
 import android.app.Application
-import com.rg.capstone.data.remote.RGApi
-import com.rg.capstone.data.repository.RGRepositoryImpl
-import com.rg.capstone.domain.repository.RGRepository
+import android.content.Context
+import com.rg.capstone.RiseGoApplication
+import com.rg.capstone.network.ApiService
+import com.rg.capstone.repository.RGRepository
+import com.rg.capstone.repository.RGRepositoryImpl
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import retrofit2.Retrofit
 import javax.inject.Singleton
@@ -17,17 +20,12 @@ import javax.inject.Singleton
 object AppModule {
 
     @Provides
-    @Singleton //scope
-    fun provideApi(): RGApi {
-        return Retrofit.Builder()
-            .baseUrl("https://test.com")
-            .build()
-            .create(RGApi::class.java)
+    @Singleton
+    fun provideApplication(@ApplicationContext app: Context): RiseGoApplication {
+        return app as RiseGoApplication
     }
 
-    @Provides
-    @Singleton
-    fun provideRepository(api: RGApi, application: Application): RGRepository {
-        return RGRepositoryImpl(api, application)
-    }
+//    fun provideRepository(api: ApiService, application: Application): RGRepository {
+//        return RGRepositoryImpl(api, application)
+//    }
 }

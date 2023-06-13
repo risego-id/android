@@ -3,7 +3,9 @@ package com.rg.capstone.network
 import com.rg.capstone.network.model.UserDto
 import com.rg.capstone.network.response.FoodRecResponse
 import com.rg.capstone.network.response.LoginResponse
+import com.rg.capstone.network.response.LogoutResponse
 import com.rg.capstone.network.response.RegisterResponse
+import com.rg.capstone.network.response.UpdateUserResponse
 import retrofit2.http.*
 
 interface ApiService {
@@ -28,8 +30,23 @@ interface ApiService {
         @Header("Authorization") token: String,
     ): UserDto
 
+    @FormUrlEncoded
+    @GET("auth/user/update")
+    suspend fun updateUserInfo(
+        @Header("Authorization") token: String,
+        @Field("weight") weight: Int,
+        @Field("height") height: Int,
+        @Field("gender") gender: String,
+        @Field("data_of_birth") date_of_birth: String,
+    ): UpdateUserResponse
+
     @POST("recommendation/food")
     suspend fun getRecommendation(
         @Header("Authorization") token: String,
     ): FoodRecResponse
+
+    @POST("auth/logout")
+    suspend fun logoutUser(
+        @Header("Authorization") token: String,
+    ): LogoutResponse
 }
