@@ -157,32 +157,6 @@ fun LoginScreen(
     }
 }
 
-//@Composable
-//fun LoginScreen(
-//    modifier: Modifier,
-//    viewModel: LoginViewModel = hiltViewModel(),
-//    navController: NavController,
-//    onLoginSuccess: () -> Unit
-//) {
-//    LoginContent(
-//        email = viewModel.emailText.value,
-//        emailError = viewModel.emailError.value,
-//        password = viewModel.emailText.value,
-//        passwordError = viewModel.emailError.value,
-//        isPasswordVisible = viewModel.showPassword.value,
-//        onValueChangeEmail = { viewModel.setEmailText(it) },
-//        onValueChangePassword = { /*TODO*/ },
-//        setShowPassword = { /*TODO*/ },
-//        onClick = {
-//                viewModel.userLogin(
-//                    email = viewModel.emailText.value,
-//                    password = viewModel.passwordText.value
-//                )
-//        }
-//    ) {
-//
-//    }
-//}
 
 @Composable
 fun LoginContent(

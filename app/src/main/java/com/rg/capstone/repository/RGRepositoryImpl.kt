@@ -14,6 +14,7 @@ import com.rg.capstone.network.Resource
 import com.rg.capstone.network.model.UserDto
 import com.rg.capstone.network.response.LogoutResponse
 import com.rg.capstone.network.response.RegisterResponse
+import com.rg.capstone.network.response.UpdateUserResponse
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -99,15 +100,28 @@ class RGRepositoryImpl(
         }
     }
 
+    override suspend fun updateUser(
+        tkn: String,
+        weight: Int,
+        height: Int,
+        gender: String,
+        date: String
+    ): LiveData<Resource<UpdateUserResponse>> = liveData {
+        try {
+            emit(Resource.Loading)
+            val token = getToken(tkn)
+            val response = api.updateUserInfo(token = token, weight = weight, height = height, date_of_birth = date, gender = gender)
+            emit(Resource.Success(response))
+        } catch (e: Exception) {
+            e.printStackTrace()
+            emit(Resource.Error(e.toString()))
+        }
+    }
+
     override suspend fun getToken(token: String): String = "Bearer $token"
 
     override fun getUserToken(): Flow<String?> = pref.getUserToken()
 
     override fun getUserId(): Flow<Int?> = pref.getUserId()
 
-//    override fun getUser(): LiveData<String?> = pref.getUser().asLiveData()
-
-//    override suspend fun getAllGoalCategories(): Flow<List<Category>> {
-//        return flowOf(category)
-//    }
 }

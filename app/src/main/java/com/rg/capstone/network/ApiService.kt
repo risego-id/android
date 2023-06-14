@@ -31,13 +31,13 @@ interface ApiService {
     ): UserDto
 
     @FormUrlEncoded
-    @GET("auth/user/update")
+    @POST("auth/user/update")
     suspend fun updateUserInfo(
         @Header("Authorization") token: String,
         @Field("weight") weight: Int,
         @Field("height") height: Int,
         @Field("gender") gender: String,
-        @Field("data_of_birth") date_of_birth: String,
+        @Field("date_of_birth") date_of_birth: String,
     ): UpdateUserResponse
 
     @POST("recommendation/food")

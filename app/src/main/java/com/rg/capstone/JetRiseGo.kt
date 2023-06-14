@@ -36,6 +36,7 @@ import com.rg.capstone.ui.screen.login.LoginScreen
 import com.rg.capstone.ui.screen.profile.ProfileScreen
 import com.rg.capstone.ui.screen.register.RegisterScreen
 import com.rg.capstone.ui.screen.streak.StreakScreen
+import com.rg.capstone.ui.screen.update_user.UpdateUserScreen
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -87,6 +88,9 @@ fun JetRiseGo(
             }
             composable(Screen.ListGoal.route) {
                 ListGoalScreen(modifier = modifier, navController = navController)
+            }
+            composable(Screen.UpdateUser.route) {
+                UpdateUserScreen(modifier = modifier, navController = navController, navigateUp = { navController.navigateUp() } )
             }
         }
 

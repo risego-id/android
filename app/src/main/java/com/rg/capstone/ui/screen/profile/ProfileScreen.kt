@@ -2,6 +2,8 @@ package com.rg.capstone.ui.screen.profile
 
 import android.graphics.drawable.Icon
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.gestures.scrollable
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -19,6 +21,7 @@ import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -27,11 +30,15 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.rg.capstone.R
@@ -55,10 +62,11 @@ fun ProfileScreen(
     val logoutState by viewModel.logoutState.collectAsState()
     val userToken by viewModel.userToken.collectAsState()
     val userId by viewModel.userId.collectAsState()
+    val userInfo by viewModel.userInfo.collectAsState()
 
     if (userToken != null) {
         if (userToken!!.isNotEmpty()) {
-
+            LaunchedEffect(Unit){ viewModel.getUserInfo(userToken!!) }
         }
     } else {
         navController.navigate(
@@ -71,6 +79,7 @@ fun ProfileScreen(
             .verticalScroll(rememberScrollState())
             .fillMaxSize()
             .padding(SpaceLarge)
+//            .verticalScroll(rememberScrollState())
     ) {
         Box(modifier = modifier.fillMaxWidth()) {
             Image(
@@ -91,9 +100,67 @@ fun ProfileScreen(
                 )
             }
         }
-//        Row(modifier = modifier) {
-//            Text(text = )
-//        }
+        when (val response = userInfo) {
+            is Resource.Loading -> {}
+            is Resource.Success -> {
+                val userInfo = response.data
+                if (userInfo != null) {
+                    if (userInfo.height == null || userInfo.weight == null) {
+                        Text(text = userInfo.name)
+                        OutlinedButton(
+                            onClick = { navController.navigate(Screen.UpdateUser.route) },
+                            modifier = modifier
+                                .fillMaxWidth()
+                        ) {
+                            Text(
+                                text = stringResource(R.string.update_profile),
+                                modifier = modifier.padding(SpaceSmall),
+                                color = colorResource(id = R.color.dark_red)
+                            )
+                        }
+                    } else {
+                        Row(modifier = modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceAround) {
+                            Text(
+                                text = userInfo.height!!.toString() + " cm",
+                                style = MaterialTheme.typography.bodySmall.copy(
+                                    fontSize = 14.sp
+                                ),
+                            )
+                            Text(
+                                text = userInfo.name,
+                                style = MaterialTheme.typography.bodySmall.copy(
+                                    fontSize = 20.sp,
+                                    fontWeight = FontWeight.W600
+                                ),
+                            )
+                            Text(
+                                text = userInfo.weight!!.toString() + " kg",
+                                style = MaterialTheme.typography.bodySmall.copy(
+                                    fontSize = 14.sp
+                                ),
+                            )
+                        }
+                        Text(
+                            text = userInfo.email,
+                            style = MaterialTheme.typography.bodySmall.copy(
+                                fontSize = 16.sp,
+                                textAlign = TextAlign.Center
+                            ),
+                            modifier = modifier.fillMaxWidth()
+                        )
+                        Text(
+                            text = stringResource(id = R.string.statistics),
+                            style = MaterialTheme.typography.bodySmall.copy(
+                                fontSize = 16.sp
+                            ),
+                            modifier = modifier.fillMaxWidth()
+                        )
+                    }
+                }
+            }
+            is Resource.Error -> {}
+            else -> {}
+        }
 
         Text(
             text = stringResource(id = R.string.settings),
@@ -138,7 +205,7 @@ fun ProfileScreen(
                     navController.navigate(
                         Screen.Login.route
                     )
-                    navController.popBackStack()
+//                    navController.popBackStack()
                 }
             }
             is Resource.Error -> {

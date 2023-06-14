@@ -1,7 +1,5 @@
 package com.rg.capstone.ui.component
 
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -17,7 +15,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -29,7 +26,7 @@ import org.w3c.dom.Text
 
 @Composable
 fun TitleScreenItem(
-    title: String,
+    title: Int,
     onBackClick: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
@@ -52,7 +49,7 @@ fun TitleScreenItem(
         }
         Spacer(modifier = modifier.padding(5.dp))
         Text(
-            text = title,
+            text = stringResource(title),
             style = MaterialTheme.typography.displaySmall,
             modifier = modifier.weight(1f)
         )
@@ -63,6 +60,6 @@ fun TitleScreenItem(
 @Composable
 fun TitleScreenItemPreview() {
     CapstoneTheme {
-        TitleScreenItem(title = "Add new goal", onBackClick = {})
+        TitleScreenItem(title = R.string.add_new_goal, onBackClick = {})
     }
 }

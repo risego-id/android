@@ -6,6 +6,7 @@ import com.rg.capstone.network.Resource
 import com.rg.capstone.network.model.UserDto
 import com.rg.capstone.network.response.LogoutResponse
 import com.rg.capstone.network.response.RegisterResponse
+import com.rg.capstone.network.response.UpdateUserResponse
 import kotlinx.coroutines.flow.Flow
 
 interface RGRepository {
@@ -14,6 +15,8 @@ interface RGRepository {
     suspend fun register(email: String, name: String, password: String, password_confirm: String): LiveData<Resource<RegisterResponse>>
 
     suspend fun logout(token: String): LiveData<Resource<LogoutResponse>>
+
+    suspend fun updateUser(token: String, weight: Int, height: Int, gender: String, date: String): LiveData<Resource<UpdateUserResponse>>
 
     suspend fun getUser(token: String): LiveData<Resource<UserDto>>
 
