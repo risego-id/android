@@ -1,7 +1,9 @@
 package com.rg.capstone.ui.component
 
+import android.view.RoundedCorner
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -32,8 +34,17 @@ import com.rg.capstone.R
 import com.rg.capstone.ui.theme.CapstoneTheme
 
 @Composable
-fun ToDoItem(modifier: Modifier = Modifier) {
-
+fun ToDoItem(
+    modifier: Modifier = Modifier,
+    isDone: Boolean,
+    image: Int,
+    title: String,
+) {
+    if (isDone) {
+        DoneItem(image = image, title = title)
+    } else {
+        NotDoneItem(image = image, title = title)
+    }
 }
 
 @Composable
@@ -49,7 +60,8 @@ fun NotDoneItem(
             .fillMaxWidth()
             .clip(RoundedCornerShape(10.dp))
             .background(Color.White)
-            .shadow(1.dp)
+            .border(width = 1.dp, color = Color.LightGray, shape = RoundedCornerShape(10.dp))
+//            .shadow(1.dp)
     ){
         Row(
             modifier = modifier.padding(10.dp),
@@ -100,8 +112,9 @@ fun DoneItem(
             .fillMaxWidth()
             .clip(RoundedCornerShape(10.dp))
             .background(colorResource(id = R.color.light_gray))
-            .shadow(1.dp)
-            .alpha(0.8f)
+            .border(width = 1.dp, color = Color.LightGray, shape = RoundedCornerShape(10.dp))
+//            .shadow(1.dp)
+//            .alpha(0.8f)
     ){
         Row(
             modifier = modifier.padding(10.dp),

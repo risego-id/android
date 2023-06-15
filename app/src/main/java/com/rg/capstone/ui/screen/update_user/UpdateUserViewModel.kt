@@ -71,7 +71,7 @@ class UpdateUserViewModel @Inject constructor(
                     _updateState.value = Resource.Error(res.message)
                 }
             }
-        }catch (e: Exception) {
+        } catch (e: Exception) {
             _updateState.value = Resource.Error(e.message ?: "Unknown error occurred")
         }
     }

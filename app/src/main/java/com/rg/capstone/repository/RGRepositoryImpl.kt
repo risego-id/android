@@ -12,6 +12,10 @@ import androidx.lifecycle.liveData
 import com.rg.capstone.domain.UserPreference
 import com.rg.capstone.network.Resource
 import com.rg.capstone.network.model.UserDto
+import com.rg.capstone.network.response.AddGoalResponse
+import com.rg.capstone.network.response.AddTaskResponse
+import com.rg.capstone.network.response.FoodRecResponse
+import com.rg.capstone.network.response.GetGoalResponse
 import com.rg.capstone.network.response.LogoutResponse
 import com.rg.capstone.network.response.RegisterResponse
 import com.rg.capstone.network.response.UpdateUserResponse
@@ -19,6 +23,7 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.flowOf
 
 class RGRepositoryImpl(
     private val api: ApiService,
@@ -119,6 +124,65 @@ class RGRepositoryImpl(
     }
 
     override suspend fun getToken(token: String): String = "Bearer $token"
+    override suspend fun getFoodRecommendation(tkn: String): LiveData<Resource<FoodRecResponse>> = liveData {
+        try {
+            emit(Resource.Loading)
+            val token = getToken(tkn)
+            val response = api.getRecommendation(token)
+            emit(Resource.Success(response))
+        } catch (e: Exception) {
+            e.printStackTrace()
+            emit(Resource.Error(e.toString()))
+        }
+    }
+
+    override suspend fun addGoal(
+        tkn: String,
+        title: String,
+        category: String
+    ): LiveData<Resource<AddGoalResponse>> = liveData {
+        try {
+            emit(Resource.Loading)
+            val token = getToken(tkn)
+            val response = api.addGoal(token, title, category)
+            emit(Resource.Success(response))
+        } catch (e: Exception) {
+            e.printStackTrace()
+            emit(Resource.Error(e.toString()))
+        }
+    }
+
+    override suspend fun addTask(
+        tkn: String,
+        goal_id: Int,
+        title: String,
+        is_done: Int,
+        task_type: String,
+        start_date: String,
+        end_date: String
+    ): LiveData<Resource<AddTaskResponse>> = liveData {
+        try {
+            emit(Resource.Loading)
+            val token = getToken(tkn)
+            val response = api.addTask(token, goal_id, title, is_done, task_type, start_date, end_date)
+            emit(Resource.Success(response))
+        } catch (e: Exception) {
+            e.printStackTrace()
+            emit(Resource.Error(e.toString()))
+        }
+    }
+
+    override suspend fun getGoal(tkn: String): LiveData<Resource<GetGoalResponse>> = liveData {
+        try {
+            emit(Resource.Loading)
+            val token = getToken(tkn)
+            val response = api.getGoal(token)
+            emit(Resource.Success(response))
+        } catch (e: Exception) {
+            e.printStackTrace()
+            emit(Resource.Error(e.toString()))
+        }
+    }
 
     override fun getUserToken(): Flow<String?> = pref.getUserToken()
 

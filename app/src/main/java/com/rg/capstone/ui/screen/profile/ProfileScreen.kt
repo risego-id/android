@@ -33,6 +33,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Devices
@@ -106,7 +107,25 @@ fun ProfileScreen(
                 val userInfo = response.data
                 if (userInfo != null) {
                     if (userInfo.height == null || userInfo.weight == null) {
-                        Text(text = userInfo.name)
+                        Text(
+                            text = userInfo.name,
+                            style = MaterialTheme.typography.bodySmall.copy(
+                                fontSize = 20.sp,
+                                textAlign = TextAlign.Center,
+                                fontWeight = FontWeight.W600
+                            ),
+                            modifier = modifier.fillMaxWidth()
+                        )
+                        Text(
+                            text = userInfo.email,
+                            style = MaterialTheme.typography.bodySmall.copy(
+                                fontSize = 16.sp,
+                                textAlign = TextAlign.Center,
+                                color = Color.LightGray,
+                                fontStyle = FontStyle.Italic
+                            ),
+                            modifier = modifier.fillMaxWidth()
+                        )
                         OutlinedButton(
                             onClick = { navController.navigate(Screen.UpdateUser.route) },
                             modifier = modifier
@@ -144,17 +163,19 @@ fun ProfileScreen(
                             text = userInfo.email,
                             style = MaterialTheme.typography.bodySmall.copy(
                                 fontSize = 16.sp,
-                                textAlign = TextAlign.Center
+                                textAlign = TextAlign.Center,
+                                color = Color.LightGray,
+                                fontStyle = FontStyle.Italic
                             ),
                             modifier = modifier.fillMaxWidth()
                         )
-                        Text(
-                            text = stringResource(id = R.string.statistics),
-                            style = MaterialTheme.typography.bodySmall.copy(
-                                fontSize = 16.sp
-                            ),
-                            modifier = modifier.fillMaxWidth()
-                        )
+//                        Text(
+//                            text = stringResource(id = R.string.statistics),
+//                            style = MaterialTheme.typography.bodySmall.copy(
+//                                fontSize = 16.sp
+//                            ),
+//                            modifier = modifier.fillMaxWidth()
+//                        )
                     }
                 }
             }

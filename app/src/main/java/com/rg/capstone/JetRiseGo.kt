@@ -1,5 +1,7 @@
 package com.rg.capstone
 
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AccountCircle
@@ -19,15 +21,19 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.sp
-import androidx.navigation.NavController
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
 import com.rg.capstone.ui.navigation.NavigationItem
 import com.rg.capstone.ui.navigation.Screen
+import com.rg.capstone.ui.screen.add_goal.AddGoalScreen
+import com.rg.capstone.ui.screen.add_task.AddTaskScreen
+import com.rg.capstone.ui.screen.recommendation.RecommendationScreen
 import com.rg.capstone.ui.screen.collaboration.CollaborationScreen
 import com.rg.capstone.ui.screen.goal_category.GoalCategoryScreen
 import com.rg.capstone.ui.screen.home.HomeScreen
@@ -38,6 +44,7 @@ import com.rg.capstone.ui.screen.register.RegisterScreen
 import com.rg.capstone.ui.screen.streak.StreakScreen
 import com.rg.capstone.ui.screen.update_user.UpdateUserScreen
 
+@RequiresApi(Build.VERSION_CODES.O)
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun JetRiseGo(
@@ -87,10 +94,58 @@ fun JetRiseGo(
                 CollaborationScreen(modifier = modifier)
             }
             composable(Screen.ListGoal.route) {
-                ListGoalScreen(modifier = modifier, navController = navController)
+                ListGoalScreen(modifier = modifier, navController = navController, navigateUp = { navController.navigateUp() } )
             }
             composable(Screen.UpdateUser.route) {
                 UpdateUserScreen(modifier = modifier, navController = navController, navigateUp = { navController.navigateUp() } )
+            }
+            composable(
+                route = Screen.AddGoal.route,
+                arguments = listOf(navArgument("category") {type = NavType.StringType})
+            ) {
+                val category = it.arguments?.getString("category") ?: ""
+                AddGoalScreen(
+                    category = category,
+                    modifier = modifier,
+                    navController = navController,
+                    navigateUp = { navController.navigateUp() }
+                )
+            }
+            composable(
+                route = Screen.Recommendation.route,
+                arguments = listOf(
+                    navArgument("category") {type = NavType.StringType},
+                    navArgument("goal") {type = NavType.StringType}
+                )
+            ) {
+                val category = it.arguments?.getString("category") ?: ""
+                val goal = it.arguments?.getString("goal") ?: ""
+                RecommendationScreen(
+                    category = category,
+                    goal = goal,
+                    navController = navController,
+                    navigateUp = { navController.navigateUp() }
+                )
+            }
+            composable(
+                route = Screen.AddTask.route,
+                arguments = listOf(
+                    navArgument("category") {type = NavType.StringType},
+                    navArgument("goal") {type = NavType.StringType},
+                    navArgument("tasks") {type = NavType.StringType}
+                )
+            ) {
+                val category = it.arguments?.getString("category") ?: ""
+                val goal = it.arguments?.getString("goal") ?: ""
+                val taskString = it.arguments?.getString("tasks") ?: ""
+                val tasks = taskString.split(",")
+                AddTaskScreen(
+                    navController = navController,
+                    navigateUp = { navController.navigateUp() },
+                    category = category,
+                    goal = goal,
+                    tasks = tasks
+                )
             }
         }
 

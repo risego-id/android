@@ -63,7 +63,6 @@ fun UpdateUserScreen(
     viewModel: UpdateUserViewModel = hiltViewModel()
 ) {
     val calendarState = rememberSheetState()
-    val genderOptions = listOf("Female", "Male")
     val updateState by viewModel.updateState.collectAsState()
     val userToken by viewModel.userToken.collectAsState()
 
@@ -212,9 +211,7 @@ fun UpdateUserScreen(
             }
             is Resource.Success -> {
                 LaunchedEffect(Unit) {
-                    navController.navigate(
-                        Screen.Profile.route
-                    )
+                    navController.navigateUp()
                 }
             }
             is Resource.Error -> {

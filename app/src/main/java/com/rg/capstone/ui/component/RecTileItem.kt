@@ -2,6 +2,7 @@ package com.rg.capstone.ui.component
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -37,6 +38,7 @@ fun RecTileItem(
             .fillMaxWidth()
             .clip(RoundedCornerShape(15.dp))
             .background(Color.White)
+            .border(width = 1.dp, color = Color.LightGray, shape = RoundedCornerShape(15.dp))
     ) {
         Row(
             modifier = modifier,
@@ -50,6 +52,16 @@ fun RecTileItem(
                         .padding(SpaceMedium)
                         .size(25.dp)
                 )
+                Text(
+                    text = title,
+                    style = MaterialTheme.typography.bodySmall.copy(
+                        fontSize = 13.sp,
+                        color = Color.Black,
+                        fontWeight = FontWeight.W500,
+
+                        ),
+                    modifier = modifier
+                )
             } else {
                 Image(
                     painter = painterResource(id = R.drawable.rec_cancel),
@@ -58,19 +70,17 @@ fun RecTileItem(
                         .padding(SpaceMedium)
                         .size(25.dp)
                 )
+                Text(
+                    text = title,
+                    style = MaterialTheme.typography.bodySmall.copy(
+                        fontSize = 13.sp,
+                        color = Color.LightGray,
+                        fontWeight = FontWeight.W500,
+
+                        ),
+                    modifier = modifier
+                )
             }
-
-            Text(
-                text = title,
-                style = MaterialTheme.typography.bodySmall.copy(
-                    fontSize = 13.sp,
-                    color = Color.Black,
-                    fontWeight = FontWeight.W500,
-
-                ),
-                modifier = modifier
-            )
-
         }
     }
 }

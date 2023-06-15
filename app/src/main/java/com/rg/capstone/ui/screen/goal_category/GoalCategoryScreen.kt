@@ -2,6 +2,7 @@ package com.rg.capstone.ui.screen.goal_category
 
 import android.nfc.Tag
 import android.widget.Toast
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -56,7 +57,10 @@ fun GoalCategoryScreen(
                 navController.navigate(
                     Screen.ListGoal.route
                 )
-            }
+            },
+            modifier = modifier.clickable { navController.navigate(
+                Screen.ListGoal.route
+            ) }
         )
         Spacer(modifier = modifier.height(SpaceMedium))
         RecommendationItem(
@@ -67,7 +71,11 @@ fun GoalCategoryScreen(
             fontColor = R.color.dark_green,
             onClick = {
                 Toast.makeText(context, R.string.under_construction, Toast.LENGTH_SHORT).show()
+            },
+            modifier = modifier.clickable {
+                Toast.makeText(context, R.string.under_construction, Toast.LENGTH_SHORT).show()
             }
+
         )
         Spacer(modifier = modifier.height(SpaceMedium))
         RecommendationItem(
@@ -77,6 +85,9 @@ fun GoalCategoryScreen(
             title = R.string.skill,
             fontColor = R.color.dark_yellow,
             onClick = {
+                Toast.makeText(context, R.string.under_construction, Toast.LENGTH_SHORT).show()
+            },
+            modifier = modifier.clickable {
                 Toast.makeText(context, R.string.under_construction, Toast.LENGTH_SHORT).show()
             }
         )

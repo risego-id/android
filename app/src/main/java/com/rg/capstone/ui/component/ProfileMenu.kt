@@ -2,6 +2,7 @@ package com.rg.capstone.ui.component
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
@@ -39,8 +40,9 @@ fun ProfileMenu(
         modifier = modifier
             .fillMaxWidth()
             .clip(RoundedCornerShape(15.dp))
+//            .shadow(1.dp)
+            .border(width = 1.dp, color = Color.LightGray, shape = RoundedCornerShape(15.dp))
             .background(Color.White)
-            .shadow(1.dp)
             .clickable { onClick }
     ) {
         Row(
