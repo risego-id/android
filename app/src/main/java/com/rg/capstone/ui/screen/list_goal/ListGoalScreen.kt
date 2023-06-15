@@ -62,7 +62,7 @@ fun ListGoalScreen(
     Column(modifier = modifier
         .padding(SpaceMedium)
         .fillMaxSize()){
-        TitleScreenItem(title = R.string.health_goals, onBackClick = navigateUp)
+        TitleScreenItem(title = R.string.health_goals, onBackClick = { navController.navigate(Screen.Goal.route) })
         Column(modifier = modifier
             .weight(.8f)
             .verticalScroll(rememberScrollState()), horizontalAlignment = Alignment.CenterHorizontally) {
