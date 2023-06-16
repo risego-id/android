@@ -86,9 +86,9 @@ fun ListGoalScreen(
                             ) {
                                 Column(modifier = modifier){
                                     Text(text = goal.title)
-                                    for (task in goal.task) {
-                                        Text(text = task.title)
-                                    }
+//                                    for (task in goal.task) {
+//                                        Text(text = task.title)
+//                                    }
                                 }
 //                                Text(text = goal.task)
                             }
